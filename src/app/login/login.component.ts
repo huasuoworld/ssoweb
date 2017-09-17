@@ -14,7 +14,6 @@ export class LoginComponent implements OnInit {
     http: Http;
     result: any;
     constructor(public router: Router, http: Http) {
-      http.get('http://localhost:8081/sso/findAll').map(response => response.json).subscribe(data => console.log(data));
       this.http = http;
     }
 
@@ -22,15 +21,15 @@ export class LoginComponent implements OnInit {
     }
 
     onLoggedin() {
-        this.http.get('http://localhost:8081/sso/findAll').map(response => response.json).subscribe(data => this.callback(data) );
+        this.http.get('http://localhost:8081/sso/findAll', { withCredentials: true }).subscribe(data => this.callback(data) );
     }
 
     callback(result: any) {
       console.log(JSON.stringify(result));
-      alert(JSON.stringify(result));
+      alert(result._body);
 //      this.router.navigate(['user', 1]);
       if (result) {
-          document.location.href = 'http://localhost:4201/dashboard?token=test1';
+          document.location.href = 'http://localhost:4201/dashboard';
       }
     }
 
